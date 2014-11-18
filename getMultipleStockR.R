@@ -2,11 +2,18 @@
 
 library(quantmod)
 library(plyr)
-symbols <- c("AMXL.MX","GFNORTEO.MX")
+symbols <- c("AMXL.MX","GFNORTEO.MX", "ALFAA.MX")
 
-getSymbols("AMXL.MX")
+getSymbols("ICA.MX")
+
 #1
-l_ply(symbols, function(sym) try(getSymbols(sym, auto.assign=FALSE))) 
+#l_ply(symbols, function(sym) try(getSymbols(sym))) 
+
+for(i in seq_along(symbols)) {
+  getSymbols(symbols[i], from="2009-01-01")
+}
+
+
 symbols <- symbols[symbols %in% ls()]
 
 #2
@@ -16,15 +23,22 @@ sym.list <- llply(symbols, get)
 data <- xts()
 for(i in seq_along(symbols)) {
   symbol <- symbols[i]
-  data <- merge(data, get(symbol)[,paste(symbol, "Close", sep=".")])
+  data <- merge(data, get(symbol)[,paste(symbol, "Adjusted", sep=".")])
 }
 
 data
+
+data[2]
+
+summary(data)
+
+write.csv(data, file="data.csv")
+
+
 xts()
 
 rm(symbols)
 rm(data)
 
 stockSymbols("^MXX")$Symbol
-
 
