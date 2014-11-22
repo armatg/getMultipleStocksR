@@ -3,6 +3,7 @@
 library(quantmod)
 library(plyr)
 
+
 #1
 #l_ply(symbols, function(sym) try(getSymbols(sym))) 
 
